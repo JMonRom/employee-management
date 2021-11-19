@@ -1,12 +1,17 @@
 const logo = require("asciiart-logo");
-const sequelize = require('./db/connection');
+const db = require("./db")
 const { prompt } = require("inquirer");
+require("console.table");
+
+
 
 // load prompts and display text using ASCII-art Logo
 let init = () => {
   const logoText = logo({ name: "Employee Manager"}).render();
 
   console.log(logoText);
+
+  mainPrompt();
 } 
 
 let mainPrompt = () => {
@@ -48,3 +53,53 @@ function viewPrompt() {
     db.showAll(answers.table_name)
   });
 }
+
+function createPrompt(table_name) {
+  if (table_name === false) {
+  prompt([
+    {
+      message: "What would you like to add?",
+      type: "list",
+      name: "table_name",
+      choices: [
+        {
+          name: "New Employee",
+          value: "employees"
+        },
+        {
+          name: "New Role",
+          value: "roles"
+        },
+        {
+          name: "New Department",
+          value: "departments"
+        },
+        {
+          name: "Back to Main Menu",
+          value: "menu"
+        },
+      ]
+    }
+  ]).then(answers => {
+    if (answers.table_name === "menu") return mainPrompt;
+    return createPrompt(answers.table_name)
+  })
+  }
+
+  if (table_name === "employees") {
+    let questions = [
+      {
+        message: "First Name:",
+        name: "firstName"
+      },
+      {
+        message: "Last Name: ",
+        name: "lastName"
+      }
+    ]
+    }
+
+}
+
+init();
+
