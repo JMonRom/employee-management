@@ -3,8 +3,6 @@ const db = require("./db")
 const { prompt } = require("inquirer");
 require("console.table");
 
-
-
 // load prompts and display text using ASCII-art Logo
 let init = () => {
   const logoText = logo({ name: "Employee Manager"}).render();
@@ -50,7 +48,7 @@ function viewPrompt() {
         {name: "All Roles", value: "roles"}]
     }
   ]).then(answers => {
-    db.showAll(answers.table_name)
+    db.viewPrompt(answers.table_name, callPrompt)
   });
 }
 
@@ -99,6 +97,10 @@ function createPrompt(table_name) {
     ]
     }
 
+}
+
+function callPrompt() {
+  mainPrompt();
 }
 
 init();
