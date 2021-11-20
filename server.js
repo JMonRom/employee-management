@@ -39,7 +39,8 @@ let mainPrompt = () => {
         return viewEmployees();
         break;
       case "ADD_EMP":
-        return 
+        return addEmployee();
+        break;
       case "VIEW_DEPARTMENTS": 
         return viewDepartments();
         break;
@@ -59,6 +60,8 @@ function viewEmployees() {
   })
   .then(() => mainPrompt());
 }
+
+
 
 // allows user to add an employee
 function addEmployee() { 
@@ -80,7 +83,7 @@ function addEmployee() {
     db.findRole()
     .then(([rows]) => {
       let roles = rows;
-      const roleOptions = role.map(({id, title }) => ({
+      const roleOptions = roles.map(({id, title }) => ({
         name: title,
         value: id,
       }));
