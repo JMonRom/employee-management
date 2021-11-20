@@ -1,7 +1,9 @@
 const logo = require("asciiart-logo");
-const db = require("./db/index")
+const db = require("./db")
 const { prompt } = require("inquirer");
 require("console.table");
+
+
 
 // load prompts and display text using ASCII-art Logo
 let init = () => {
@@ -18,45 +20,47 @@ let mainPrompt = () => {
       message: "What would you like to do?",
       type: "list",
       name: "optionChoice",
-      choices: ["View", "Add", "Edit", "Remove", "Quit"]
-    }
-  ]).then(answers => {
-    switch(answers.optionChoice) {
-      case "View":
-        return viewPrompt();
-      case "VIEW_EMPLOYEES":
-        return viewEmployees();
-      case "Add":
-        return createPrompt();
-      case "Edit":
-        return updatePrompt();
-      case "Remove":
-        return removePrompt();
-      case "Quit":
-        return quitPrompt();
-    }
-  });
-}
-
-function viewPrompt() {
-  prompt([
-    {
-      message: "View:",
-      type: "list",
-      name: "table_name",
       choices: [
-        {name: "All Employees", value: "employee"}, 
-        {name: "All Departments", value: "department"}, 
-        {name: "All Roles", value: "role"}]
+        {name: "View All Employees", value: "VIEW_EMP"},
+        {name: "Add Employee", value: "ADD_EMPLOYEE"},
+        {name: "Update Employee Role", value: "UPDATE_EMP_ROLE"},
+        {name: "View All Roles", value: "VIEW_ROLES"},
+        {name: "Add Role", value: "ADD_ROLE"},
+        {name: "View All Departments", value: "VIEW_DEPARTMENTS"},
+        {name: "Add Department", value: "ADD_DEPARTMENT"}, {name:"Quit", value: "QUIT"}
+      ]
     }
   ]).then(answers => {
-    db.showAll(answers.table_name, callPrompt)
+    let choice = answers.optionChoice;
+    switch(choice) {
+      case "VIEW_EMP":
+        return viewEmployees();
+        break;
+      case "VIEW_DEPARTMENTS": 
+        return viewDepartments();
+        break;
+      default: 
+        quit();
+    }
   });
 }
 
-function callPrompt() {
-  mainPrompt();
+function viewEmployees() {
+  db.findEmployees()
+  .then(([rows]) => {
+    let employees = rows;
+    console.log()
+    console.table(employees);
+  })
+  .then(() => mainPrompt());
+}
+
+function quit() {
+  console.log('BYE!');
+  proecess.exit();
 }
 
 init();
+
+
 
