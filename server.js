@@ -41,6 +41,21 @@ let mainPrompt = () => {
       case "ADD_EMP":
         return addEmployee();
         break;
+      case "UPDATE_EMP_ROLE": 
+        return viewDepartments();
+        break;
+      case "VIEW_ROLES": 
+        return viewDepartments();
+        break;
+      case "ADD_ROLE": 
+        return viewDepartments();
+        break;
+      case "REMOVE_ROLE": 
+        return viewDepartments();
+        break;
+      case "ADD_DEPARTMENT": 
+        return viewDepartments();
+        break;
       case "VIEW_DEPARTMENTS": 
         return viewDepartments();
         break;
@@ -55,10 +70,20 @@ function viewEmployees() {
   db.findEmployees()
   .then(([rows]) => {
     let employees = rows;
-    console.log()
     console.table(employees);
   })
   .then(() => mainPrompt());
+}
+
+function addEmployeeRole() {
+  db.findEmployees()
+  .then(([rows]) => {
+    let employees = rows;
+    const employeeChoices = employees.map(({
+      id, first_name, last_name }) => ({
+        name: ``
+      }))
+  })
 }
 
 
@@ -98,14 +123,17 @@ function addEmployee() {
         .then(([rows]) => {
           let employees = rows;
           const managerOptions = employees.map(({id, first_name, last_name }) => ({
-            name: `${firstName} ${lastName}`,
+            name: `${first_name} ${last_name}`,
             value: id,
           }));
+
+          managerOptions.unshift({ name: 'None', value: null });
 
           prompt({
             type: "list",
             name: "managerID",
-            message: "Who is employee's manager?"
+            message: "Who is employee's manager?",
+            choices: managerOptions
           })
           .then(answers => {
             let employee = {
