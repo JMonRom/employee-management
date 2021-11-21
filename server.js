@@ -45,10 +45,10 @@ let mainPrompt = () => {
         return addEmployeeRole();
         break;
       case "VIEW_ROLES": 
-        return viewDepartments();
+        return viewRoles();
         break;
       case "ADD_ROLE": 
-        return viewDepartments();
+        return addRole();
         break;
       case "REMOVE_ROLE": 
         return viewDepartments();
@@ -181,22 +181,55 @@ function addEmployee() {
 })   
   
 }
- 
 
-    
-    // let roles = rows;
-    // const roleOptions = roles.map(({ id, title}) => 
-    // ({
-    //   name: title,
-    //   value: id,
-  
+function viewRoles() {
+  db.findRole()
+  .then(([rows]) => {
+    let roles = rows;
+    console.table(roles);
+  }).then(() => mainPrompt());
+} 
 
-  //   prompt({ 
-  //     type: "list",
-  //     name: "roleID",
-  //   })
-  // })
-  // }}
+function addRole() {
+  db.findDepartment()
+  .then(([rows]) => {
+    let department = rows;
+    const chooseDepartment = department.map(({ id, name }) => ({
+      name: name,
+      value: id
+    }));
+    prompt([
+      {
+        name: 'title',
+        message: 'Name of role ?'
+      },
+      {
+        name: 'salary',
+        message: 'Salary of role ?'
+      },
+      {
+        type: 'list',
+        name: 'department_id',
+        message: 'Which department does role belong to?',
+        choices: chooseDepartment
+      }
+    ]).then(role => {
+      db.addRole(role)
+      .then(() => console.log(
+        `Added ${role.title} to database !`
+      ))
+      .then(() => mainPrompt())
+    })
+  });
+} 
+
+function viewDepartments() {
+  db.findDepartment()
+  .then(([rows]) => {
+    let departments = rows;
+    console.table(departments);
+  }).then(() => mainPrompt());
+}
 
 function quit() {
   console.log('BYE!');
