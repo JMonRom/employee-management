@@ -42,7 +42,7 @@ let mainPrompt = () => {
         return addEmployee();
         break;
       case "UPDATE_EMP_ROLE": 
-        return viewDepartments();
+        return addEmployeeRole();
         break;
       case "VIEW_ROLES": 
         return viewDepartments();
@@ -81,9 +81,36 @@ function addEmployeeRole() {
     let employees = rows;
     const employeeChoices = employees.map(({
       id, first_name, last_name }) => ({
-        name: ``
-      }))
-  })
+        name: `${first_name} ${last_name}`,
+        value: id
+      }));
+      prompt([
+        {
+          type: 'list',
+          name: 'employeeID',
+          message: `Which employee's role would you like to update?`,
+          choices: employeeChoices
+        }
+      ]).then(answers => {
+        let employeeID = answers.employeeID;
+        db.findRole()
+        .then(([rows]) => {
+          let roles = rows;
+          const roleOptions = roles.map(({ id, title }) => ({
+            name: title,
+            value: id
+          }));
+          prompt({
+            type: "list",
+            name: "roleID",
+            message: "Which role do you want to assign?",
+            choices: roleOptions
+          }).then(answer => db.addEmployeeRole(employeeID, answer.roleID))
+          .then(() => console.log("Employee's role has been updated !"))
+          .then(() => mainPrompt())
+        });
+      });
+  });
 }
 
 
