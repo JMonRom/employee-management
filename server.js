@@ -50,14 +50,11 @@ let mainPrompt = () => {
       case "ADD_ROLE": 
         return addRole();
         break;
-      case "REMOVE_ROLE": 
+      case "VIEW_DEPARTMENTS": 
         return viewDepartments();
         break;
       case "ADD_DEPARTMENT": 
-        return viewDepartments();
-        break;
-      case "VIEW_DEPARTMENTS": 
-        return viewDepartments();
+        return addDepartment();
         break;
       default: 
         quit();
@@ -127,9 +124,9 @@ function addEmployee() {
       message: "What is employee's last name?"
     }
   ])
-  .then(res => {
-    let firstName = res.first_name;
-    let lastName = res.first_name;
+    .then(answers => {
+      let firstName = answers.first_name;
+      let lastName = answers.last_name;
 
 
     db.findRole()
@@ -178,8 +175,7 @@ function addEmployee() {
       })
     })
   })
-})   
-  
+})
 }
 
 function viewRoles() {
@@ -234,6 +230,22 @@ function viewDepartments() {
 function quit() {
   console.log('BYE!');
   proecess.exit();
+}
+
+function addDepartment() {
+  prompt([
+    {
+      name: "name",
+      message: "What is the name of the department?"
+    }
+  ]).then(answers => {
+    let name = answers;
+    db.addDepartment(name)
+    .then(() => console.log(
+      `Added ${name.name} to database !`
+    ))
+    .then(() => mainPrompt())
+  })
 }
 
 init();
