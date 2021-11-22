@@ -37,6 +37,7 @@ addEmployeeRole(employeeID, roleID) {
   return this.connection.promise().query(`UPDATE employee SET role_id = ? WHERE id = ?`, [roleID, employeeID]);
 }
 
+// all department functions
 findDepartment() {
   return this.connection.promise().query(
     `SELECT department.id, department.name FROM department`

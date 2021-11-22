@@ -6,9 +6,11 @@
 
   ## Description
 
-  Using starter code I had to refactor it so that the application would properly write and save notes. The server.js file was missing that would connect the html to direct to Notes pages. When the user is redirected they should be able to append their new note title and note and refer back to it. After it is saved a new note should display for user input. 
-  
-  To do this I had to make a function that would make a new note and increase the count so a new note would be displayed. One challenge I came across was towards the end of the project because I kept getting an error loading the note on the page. However, after reviewing previous lectures I reviewed the use of fs module. Deploying to Heroku was also interesting to learn and was straightforward with the directions they provide. 
+  This homework assigned me the task of creating an interface that lets non-developers manage a company's employee database, using Node.js, Inquirer, and MySQL.
+
+  My first step was read through and review activities that used MYSQL, Inquirer and the console.table to navigate the app and allow for proper display of data and questions when prompted. I also looked for a different way to store my database credentials using dotenv. Then I started by creating my schema with the provided layout. The seeds file was created next to start populating some data for departments, roles, and employees. 
+
+  Although a bit of a challenge was presented when trying to load the prompts but used the terminal to work out the issues that needed to be resolved. Often the appropriate parameters were not included and insuring I was properly spelling the functions and referring the correct ones where needed in the server.js. I also recieved some guidance from instructor in order to properly connect the db to display the information when called. Overall this project was useful to improve my knowledge of content management systems and how to effectively use MYSQL for database work.
 
   [Creating Connection](https://stackoverflow.com/questions/40153085/how-does-createconnection-work-with-nodejs-in-mysql)
   
@@ -16,13 +18,15 @@
 
   [Modules Refresher](https://www.sitepoint.com/understanding-module-exports-exports-node-js/)
 
-  Here is a link to the deployed Note Taker site using Heroku:
+  [Using dotenv](https://www.npmjs.com/package/dotenv)
 
-  [fs.writeFileSync](https://nodejs.org/api/fs.html#fswritesyncfd-string-position-encoding)
+  Here is a video to the Employee Management being run in command line:
 
-  Here is a link to the GitHub for Note Taker :
+  [Video of Employee Management]()
 
-  [Github Integration](https://devcenter.heroku.com/articles/github-integration)
+  Here is a link to the GitHub for Employee Management :
+
+  [Employee Management](https://github.com/JMonRom/employee-management)
 
   Here is a screenshot of the app running in command line:
 

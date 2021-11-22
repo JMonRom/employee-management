@@ -28,7 +28,10 @@ let mainPrompt = () => {
         {name: "View All Roles", value: "VIEW_ROLES"},
         {name: "Add Role", value: "ADD_ROLE"},
         {name: "View All Departments", value: "VIEW_DEPARTMENTS"},
-        {name: "Add Department", value: "ADD_DEPARTMENT"}, {name:"Quit", value: "QUIT"}
+        {name: "Add Department", value: "ADD_DEPARTMENT"},
+        {name:"Remove Employee", value: "REMOVE_EMPLOYEE"},
+        {name:"Quit", value: "QUIT"}
+        
       ]
     }
   ]).then(answers => {
@@ -55,6 +58,9 @@ let mainPrompt = () => {
         break;
       case "ADD_DEPARTMENT": 
         return addDepartment();
+        break;
+      case "REMOVE_EMPLOYEE":
+        return removeEmployee();
         break;
       default: 
         quit();
@@ -178,6 +184,16 @@ function addEmployee() {
 })
 }
 
+function removeEmployee() {
+  db.findEmployees()
+  .then(([rows]) => {
+    let employees = rows;
+    const employeeOptions = employees.map(({ id, first_name, last_name }) => ({
+      name: `${first_name} ${last_name}`,
+      value: id,
+  }));
+})}
+
 function viewRoles() {
   db.findRole()
   .then(([rows]) => {
@@ -227,11 +243,6 @@ function viewDepartments() {
   }).then(() => mainPrompt());
 }
 
-function quit() {
-  console.log('BYE!');
-  proecess.exit();
-}
-
 function addDepartment() {
   prompt([
     {
@@ -246,6 +257,11 @@ function addDepartment() {
     ))
     .then(() => mainPrompt())
   })
+}
+
+function quit() {
+  console.log('BYE!');
+  process.exit();
 }
 
 init();
