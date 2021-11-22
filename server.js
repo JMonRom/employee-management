@@ -192,6 +192,17 @@ function removeEmployee() {
       name: `${first_name} ${last_name}`,
       value: id,
   }));
+  prompt([
+    {
+      type: "list",
+      name: "employeeID",
+      message: "Which employee would you like to remove?",
+      choices: employeeOptions
+    }
+  ]).then(answers =>
+    db.deleteEmployee(answers.employeeID)
+  ).then(() => console.log(`Removed employee from database!`))
+  .then(() => mainPrompt());
 })}
 
 function viewRoles() {
